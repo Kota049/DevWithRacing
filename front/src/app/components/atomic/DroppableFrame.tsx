@@ -1,12 +1,15 @@
 "use client";
 import { useDroppable } from "@dnd-kit/core";
 import { Box } from "@mui/material";
+import { blue } from "@mui/material/colors";
+import { ReactNode } from "react";
 
 interface DroppableFrameArg {
   id: string;
+  children: ReactNode;
 }
 
-const DroppableFrame = ({ id }: DroppableFrameArg) => {
+const DroppableFrame = ({ id, children }: DroppableFrameArg) => {
   const { setNodeRef } = useDroppable({
     id: id,
   });
@@ -14,8 +17,18 @@ const DroppableFrame = ({ id }: DroppableFrameArg) => {
   return (
     <Box
       ref={setNodeRef}
-      sx={{ display: "flex", minHeight: "100px", minWidth: "100px" }}
-    ></Box>
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: blue[50],
+        padding: "10px",
+        margin: "10px",
+        minHeight: "100px",
+      }}
+    >
+      {children}
+    </Box>
   );
 };
 
