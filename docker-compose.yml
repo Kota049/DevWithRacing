@@ -1,0 +1,12 @@
+version: "3.6"
+services:
+  front:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.front
+    volumes:
+      - ./front:/app
+    ports:
+      - "3000:3000"
+    tty: true
+    command: ["bash"]
