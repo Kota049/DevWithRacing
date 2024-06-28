@@ -1,23 +1,26 @@
 "use client";
-import React, { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
-import { Draggable } from "./Draggable";
-import { Droppable } from "./Droppable";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import HorseCard from "../atomic/HorseCard";
+import DroppableFrame from "../atomic/DroppableFrame";
 
-function Example() {
-  const [parent, setParent] = useState(null);
-  const draggable = <Draggable id="draggable">Go ahead, drag me.</Draggable>;
-
+const Formation = () => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      {!parent ? draggable : null}
-      <Droppable id="droppable">
-        {parent === "droppable" ? draggable : "Drop here"}
-      </Droppable>
+      <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={"1"} />
+      <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={"2"} />
+      <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={"3"} />
+      <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={"4"} />
+      <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={"5"} />
+      <DroppableFrame id="A"></DroppableFrame>
+      <DroppableFrame id="B"></DroppableFrame>
+      <DroppableFrame id="C"></DroppableFrame>
     </DndContext>
   );
 
-  function handleDragEnd({ over }) {
-    setParent(over ? over.id : null);
+  function handleDragEnd({ active }: DragEndEvent) {
+    console.log("dropped");
+    console.log(`${active.id}`);
   }
-}
+};
+
+export default Formation;

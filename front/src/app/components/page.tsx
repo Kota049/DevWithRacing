@@ -1,9 +1,8 @@
+"use client";
 import { NextPage } from "next";
-import HorseCard from "./atomic/HorseCard";
+import Formation from "./molecules/formation";
 
 const DebugPage: NextPage = () => {
-  return (
-    <HorseCard order={0} name={"アルナシーム"} jockey={"鮫島克"} id={""} />
-  );
+  return <Formation />;
 };
 export default DebugPage;
