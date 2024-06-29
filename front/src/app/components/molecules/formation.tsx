@@ -4,7 +4,7 @@ import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
 import { useState } from "react";
 import { Box } from "@mui/material";
-// fetch
+// fetch data
 interface RaceData {
   order: number;
   name: string;
@@ -148,10 +148,22 @@ const Formation = () => {
     const newData = getHorseState(horceData, targetId);
     if (currentStatus == FavoriteLevel.None) {
       const newFormation = [...formation, newData];
-      setFormation([...new Set(newFormation)]);
+      setFormation([
+        ...newFormation.filter(
+          (element, index, self) =>
+            self.findIndex((e) => e.id == element.id) === index
+        ),
+      ]);
       return;
     }
-    setFormation(formation.map((el) => (el.id == active.id ? newData : el)));
+    setFormation([
+      ...formation
+        .map((el) => (el.id == active.id ? newData : el))
+        .filter(
+          (element, index, self) =>
+            self.findIndex((e) => e.id == element.id) === index
+        ),
+    ]);
   }
 };
 
