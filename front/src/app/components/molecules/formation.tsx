@@ -13,8 +13,8 @@ interface RaceData {
 
 const FavoriteLevel = {
   Favorite: "favorite",
-  SecondFavorite: "second_favorite",
-  LongShot: "long_shot",
+  SecondFavorite: "secondFavorite",
+  LongShot: "longShot",
   None: "none",
 };
 
@@ -34,6 +34,12 @@ const getHorseState = (
 ): FormationState => {
   const id = `${status}_${data.order}`;
   return { id: id, status: status, ...data };
+};
+
+const extractOrderAndStatus = (id: string) => {
+  const [status, orderString] = id.split("_");
+  const order = parseInt(orderString);
+  return { status, order };
 };
 
 const Formation = () => {
@@ -128,9 +134,24 @@ const Formation = () => {
     </DndContext>
   );
 
-  function handleDragEnd({ active }: DragEndEvent) {
-    console.log("dropped");
-    console.log(`${active.id}`);
+  function handleDragEnd({ active, over }: DragEndEvent) {
+    const { status: currentStatus, order } = extractOrderAndStatus(
+      active.id.toString()
+    );
+    const data = horcesData.find((el) => el.order == order);
+    const target = over?.id;
+    if (data == null || target == null) {
+      console.log("エラーやで");
+    }
+    const horceData = data!;
+    const targetId = target!.toString();
+    const newData = getHorseState(horceData, targetId);
+    if (currentStatus == FavoriteLevel.None) {
+      const newFormation = [...formation, newData];
+      setFormation([...new Set(newFormation)]);
+      return;
+    }
+    setFormation(formation.map((el) => (el.id == active.id ? newData : el)));
   }
 };
 
