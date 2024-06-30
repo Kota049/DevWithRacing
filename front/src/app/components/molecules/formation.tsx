@@ -2,8 +2,11 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
-import { useState } from "react";
-import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
+import getCombination from "@/app/utils/getCombination";
+import { red } from "@mui/material/colors";
+import BettingCombination from "../atomic/BettingCombination";
 // fetch data
 interface RaceData {
   order: number;
@@ -67,71 +70,88 @@ const Formation = () => {
   const [formation, setFormation] = useState<FormationState[]>(
     horcesData.map((data) => getHorseState(data, FavoriteLevel.None))
   );
+  const [combination, setCombination] = useState<number[][]>();
+  useEffect(() => {
+    updateCombination(formation);
+  }, [formation]);
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <Box sx={{ display: "flex", width: "100%", flexGrow: 1 }}>
-        <DroppableFrame id={FavoriteLevel.None}>
-          {formation
-            .filter((el) => el.status == FavoriteLevel.None)
-            .map((el) => {
-              return (
-                <HorseCard
-                  order={el.order}
-                  name={el.name}
-                  jockey={el.jockey}
-                  id={el.id}
-                  key={el.id}
-                />
-              );
-            })}
-        </DroppableFrame>
-        <DroppableFrame id={FavoriteLevel.Favorite}>
-          {formation
-            .filter((el) => el.status == FavoriteLevel.Favorite)
-            .map((el) => {
-              return (
-                <HorseCard
-                  order={el.order}
-                  name={el.name}
-                  jockey={el.jockey}
-                  id={el.id}
-                  key={el.id}
-                />
-              );
-            })}
-        </DroppableFrame>
-        <DroppableFrame id={FavoriteLevel.SecondFavorite}>
-          {formation
-            .filter((el) => el.status == FavoriteLevel.SecondFavorite)
-            .map((el) => {
-              return (
-                <HorseCard
-                  order={el.order}
-                  name={el.name}
-                  jockey={el.jockey}
-                  id={el.id}
-                  key={el.id}
-                />
-              );
-            })}
-        </DroppableFrame>
-        <DroppableFrame id={FavoriteLevel.LongShot}>
-          {formation
-            .filter((el) => el.status == FavoriteLevel.LongShot)
-            .map((el) => {
-              return (
-                <HorseCard
-                  order={el.order}
-                  name={el.name}
-                  jockey={el.jockey}
-                  id={el.id}
-                  key={el.id}
-                />
-              );
-            })}
-        </DroppableFrame>
+    <>
+      <DndContext onDragEnd={handleDragEnd}>
+        <Box sx={{ display: "flex", width: "100%", flexGrow: 1 }}>
+          <DroppableFrame id={FavoriteLevel.None}>
+            {formation
+              .filter((el) => el.status == FavoriteLevel.None)
+              .map((el) => {
+                return (
+                  <HorseCard
+                    order={el.order}
+                    name={el.name}
+                    jockey={el.jockey}
+                    id={el.id}
+                    key={el.id}
+                  />
+                );
+              })}
+          </DroppableFrame>
+          <DroppableFrame id={FavoriteLevel.Favorite}>
+            {formation
+              .filter((el) => el.status == FavoriteLevel.Favorite)
+              .map((el) => {
+                return (
+                  <HorseCard
+                    order={el.order}
+                    name={el.name}
+                    jockey={el.jockey}
+                    id={el.id}
+                    key={el.id}
+                  />
+                );
+              })}
+          </DroppableFrame>
+          <DroppableFrame id={FavoriteLevel.SecondFavorite}>
+            {formation
+              .filter((el) => el.status == FavoriteLevel.SecondFavorite)
+              .map((el) => {
+                return (
+                  <HorseCard
+                    order={el.order}
+                    name={el.name}
+                    jockey={el.jockey}
+                    id={el.id}
+                    key={el.id}
+                  />
+                );
+              })}
+          </DroppableFrame>
+          <DroppableFrame id={FavoriteLevel.LongShot}>
+            {formation
+              .filter((el) => el.status == FavoriteLevel.LongShot)
+              .map((el) => {
+                return (
+                  <HorseCard
+                    order={el.order}
+                    name={el.name}
+                    jockey={el.jockey}
+                    id={el.id}
+                    key={el.id}
+                  />
+                );
+              })}
+          </DroppableFrame>
+        </Box>
+      </DndContext>
+      <Box width={"100%"} sx={{ backgroundColor: red[50] }}>
+        <Typography>買い目</Typography>
+        {combination?.map((el) => (
+          <BettingCombination
+            first={el[0]}
+            second={el[1]}
+            third={el[2]}
+            key={el.toString()}
+          />
+        ))}
       </Box>
-    </DndContext>
+    </>
   );
 
   function handleDragEnd({ active, over }: DragEndEvent) {
@@ -164,6 +184,22 @@ const Formation = () => {
             self.findIndex((e) => e.id == element.id) === index
         ),
     ]);
+  }
+
+  function updateCombination(formation: FormationState[]) {
+    const favorites = formation
+      .filter((el) => el.status == FavoriteLevel.Favorite)
+      .map((el) => el.order)
+      .sort((a, b) => a - b);
+    const secondFavorites = formation
+      .filter((el) => el.status == FavoriteLevel.SecondFavorite)
+      .map((el) => el.order)
+      .sort((a, b) => a - b);
+    const longShots = formation
+      .filter((el) => el.status == FavoriteLevel.LongShot)
+      .map((el) => el.order)
+      .sort((a, b) => a - b);
+    setCombination(getCombination(favorites, secondFavorites, longShots));
   }
 };
 
