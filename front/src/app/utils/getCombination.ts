@@ -5,6 +5,8 @@ interface getCombinationArg {
 }
 
 const getCombination = ({ f, s, l }: getCombinationArg): number[][] => {
+  f = [...new Set(f)];
+
   let res = [];
   for (const i1 of f) {
     s = exclude(s, i1);
