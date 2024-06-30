@@ -11,6 +11,7 @@ import { RaceData } from "../../types/RaceData";
 import useFormationHooks from "@/app/hooks/useFormation";
 
 const Formation = () => {
+  // todo: fetch data logic
   const horcesData: RaceData[] = [
     { order: 1, name: "ジャスティンパレス", jockey: "鮫島克" },
     { order: 2, name: "ダノンベルーガ", jockey: "川田" },
