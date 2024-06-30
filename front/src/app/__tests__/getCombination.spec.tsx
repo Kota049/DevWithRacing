@@ -11,10 +11,16 @@ describe("getCombination", () => {
     const res = getCombination({ f: arg[0], s: arg[1], l: arg[2] });
     expect(res).toContainEqual([1, 2, 3]);
   });
-  it("case has duplicated in s", () => {
+  it("case has duplicated in f & s", () => {
     const arg = [[1], [1, 2], [3]];
     const res = getCombination({ f: arg[0], s: arg[1], l: arg[2] });
     expect(res).toContainEqual([1, 2, 3]);
     expect(res).not.toContainEqual([1, 1, 3]);
+  });
+  it("case has duplicated in f & l", () => {
+    const arg = [[1], [2], [3, 1]];
+    const res = getCombination({ f: arg[0], s: arg[1], l: arg[2] });
+    expect(res).toContainEqual([1, 2, 3]);
+    expect(res).not.toContainEqual([1, 2, 1]);
   });
 });
