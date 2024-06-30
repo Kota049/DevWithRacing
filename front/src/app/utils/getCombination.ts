@@ -1,10 +1,4 @@
-interface getCombinationArg {
-  f: number[];
-  s: number[];
-  l: number[];
-}
-
-const getCombination3 = ({ f, s, l }: getCombinationArg): number[][] => {
+const getCombination3 = (f: number[], s: number[], l: number[]): number[][] => {
   f = removeDuplicated(f);
   s = removeDuplicated(s);
   l = removeDuplicated(l);
