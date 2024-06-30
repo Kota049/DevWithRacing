@@ -1,21 +1,21 @@
-const getCombination3 = (
-  f: number[],
-  s: number[],
-  l: number[] = []
+const getCombination = (
+  firstChoices: number[],
+  secondChoices: number[],
+  thirdChoices?: number[]
 ): number[][] => {
-  f = removeDuplicated(f);
-  s = removeDuplicated(s);
-  if (l.length == 0) {
-    return getCombination2(f, s, []);
+  firstChoices = removeDuplicated(firstChoices);
+  secondChoices = removeDuplicated(secondChoices);
+  if (typeof thirdChoices == "undefined") {
+    return getCombination2(firstChoices, secondChoices, []);
   }
-  l = removeDuplicated(l);
+  thirdChoices = removeDuplicated(thirdChoices);
 
   let res: number[][] = [];
-  for (const i1 of f) {
-    s = exclude(s, i1);
-    l = exclude(l, i1);
+  for (const i1 of firstChoices) {
+    secondChoices = exclude(secondChoices, i1);
+    thirdChoices = exclude(thirdChoices, i1);
     const currentRes = [i1];
-    res = [...res, ...getCombination2(s, l, currentRes)];
+    res = [...res, ...getCombination2(secondChoices, thirdChoices, currentRes)];
   }
   return res;
 };
@@ -43,4 +43,4 @@ const removeDuplicated = (array: number[]) => {
   return [...new Set(array)];
 };
 
-export default getCombination3;
+export default getCombination;
