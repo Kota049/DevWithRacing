@@ -1,4 +1,8 @@
-const getCombination3 = (f: number[], s: number[], l: number[]): number[][] => {
+const getCombination3 = (
+  f: number[],
+  s: number[],
+  l: number[] = []
+): number[][] => {
   f = removeDuplicated(f);
   s = removeDuplicated(s);
   l = removeDuplicated(l);

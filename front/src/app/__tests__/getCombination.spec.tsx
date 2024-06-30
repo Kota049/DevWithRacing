@@ -47,4 +47,9 @@ describe("getCombination", () => {
     expect(res).toContainEqual([1, 2, 3]);
     expect(res.length).toStrictEqual(1);
   });
+  it("case 2 combination", () => {
+    const arg = [[1], [2]];
+    const res = getCombination3(arg[0], arg[1]);
+    expect(res).toContainEqual([1, 2]);
+  });
 });
