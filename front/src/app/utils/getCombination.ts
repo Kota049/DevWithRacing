@@ -7,6 +7,7 @@ interface getCombinationArg {
 const getCombination3 = ({ f, s, l }: getCombinationArg): number[][] => {
   f = removeDuplicated(f);
   s = removeDuplicated(s);
+  l = removeDuplicated(l);
 
   let res: number[][] = [];
   for (const i1 of f) {
