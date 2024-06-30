@@ -1,49 +1,14 @@
 "use client";
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { DndContext } from "@dnd-kit/core";
 import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import getCombination from "@/app/utils/getCombination";
 import { red } from "@mui/material/colors";
 import BettingCombination from "../atomic/BettingCombination";
-// fetch data
-interface RaceData {
-  order: number;
-  name: string;
-  jockey: string;
-}
-
-const FavoriteLevel = {
-  Favorite: "favorite",
-  SecondFavorite: "secondFavorite",
-  LongShot: "longShot",
-  None: "none",
-};
-
-type FavoriteStatus = (typeof FavoriteLevel)[keyof typeof FavoriteLevel];
-
-interface FormationState {
-  id: string;
-  status: FavoriteStatus;
-  order: number;
-  name: string;
-  jockey: string;
-}
-
-const getHorseState = (
-  data: RaceData,
-  status: FavoriteStatus
-): FormationState => {
-  const id = `${status}_${data.order}`;
-  return { id: id, status: status, ...data };
-};
-
-const extractOrderAndStatus = (id: string) => {
-  const [status, orderString] = id.split("_");
-  const order = parseInt(orderString);
-  return { status, order };
-};
+import { FavoriteLevel } from "../../types/FavoriteStatus";
+import { RaceData } from "../../types/RaceData";
+import useFormationHooks from "@/app/hooks/useFormation";
 
 const Formation = () => {
   const horcesData: RaceData[] = [
@@ -67,16 +32,14 @@ const Formation = () => {
     { order: 18, name: "ブローザホーン", jockey: "菅原" },
   ];
 
-  const [formation, setFormation] = useState<FormationState[]>(
-    horcesData.map((data) => getHorseState(data, FavoriteLevel.None))
-  );
-  const [combination, setCombination] = useState<number[][]>();
+  const { updateFormation, updateBettingList, formation, bettingList } =
+    useFormationHooks(horcesData);
   useEffect(() => {
-    updateCombination(formation);
-  }, [formation]);
+    updateBettingList(formation);
+  }, [formation, updateBettingList]);
   return (
     <>
-      <DndContext onDragEnd={handleDragEnd}>
+      <DndContext onDragEnd={updateFormation}>
         <Box sx={{ display: "flex", width: "100%", flexGrow: 1 }}>
           <DroppableFrame id={FavoriteLevel.None}>
             {formation
@@ -142,7 +105,7 @@ const Formation = () => {
       </DndContext>
       <Box width={"100%"} sx={{ backgroundColor: red[50] }}>
         <Typography>買い目</Typography>
-        {combination?.map((el) => (
+        {bettingList?.map((el) => (
           <BettingCombination
             first={el[0]}
             second={el[1]}
@@ -153,54 +116,6 @@ const Formation = () => {
       </Box>
     </>
   );
-
-  function handleDragEnd({ active, over }: DragEndEvent) {
-    const { status: currentStatus, order } = extractOrderAndStatus(
-      active.id.toString()
-    );
-    const data = horcesData.find((el) => el.order == order);
-    const target = over?.id;
-    if (data == null || target == null) {
-      console.log("エラーやで");
-    }
-    const horceData = data!;
-    const targetId = target!.toString();
-    const newData = getHorseState(horceData, targetId);
-    if (currentStatus == FavoriteLevel.None) {
-      const newFormation = [...formation, newData];
-      setFormation([
-        ...newFormation.filter(
-          (element, index, self) =>
-            self.findIndex((e) => e.id == element.id) === index
-        ),
-      ]);
-      return;
-    }
-    setFormation([
-      ...formation
-        .map((el) => (el.id == active.id ? newData : el))
-        .filter(
-          (element, index, self) =>
-            self.findIndex((e) => e.id == element.id) === index
-        ),
-    ]);
-  }
-
-  function updateCombination(formation: FormationState[]) {
-    const favorites = formation
-      .filter((el) => el.status == FavoriteLevel.Favorite)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    const secondFavorites = formation
-      .filter((el) => el.status == FavoriteLevel.SecondFavorite)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    const longShots = formation
-      .filter((el) => el.status == FavoriteLevel.LongShot)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    setCombination(getCombination(favorites, secondFavorites, longShots));
-  }
 };
 
 export default Formation;
