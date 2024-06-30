@@ -2,10 +2,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/molecules/header";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import errorAtom from "./globalState/error";
 import { Snackbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,19 +15,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const errors = useAtomValue(errorAtom);
-  const [open, setOpen] = useState(false);
+  const setErrors = useSetAtom(errorAtom);
   return (
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        {errors.map((msg, index) => {
+        {errors?.map((msg, index) => {
           return (
             <Snackbar
               anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              open={open}
+              open={true}
               onClose={() => {
-                setOpen(false);
+                setErrors((prev) => {
+                  return prev.filter((_, i) => i != index);
+                });
               }}
+              autoHideDuration={5000}
               message={msg}
               key={index}
             />

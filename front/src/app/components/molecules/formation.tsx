@@ -9,6 +9,7 @@ import BettingCombination from "../atomic/BettingCombination";
 import { FavoriteLevel } from "../../types/FavoriteStatus";
 import { RaceData } from "../../types/RaceData";
 import useFormationHooks from "@/app/hooks/useFormation";
+import getBettingList from "@/app/utils/getBettingList";
 
 const Formation = () => {
   // todo: fetch data logic
@@ -33,11 +34,7 @@ const Formation = () => {
     { order: 18, name: "ブローザホーン", jockey: "菅原" },
   ];
 
-  const { updateFormation, updateBettingList, formation, bettingList } =
-    useFormationHooks(horcesData);
-  useEffect(() => {
-    updateBettingList(formation);
-  }, [formation, updateBettingList]);
+  const { updateFormation, formation } = useFormationHooks(horcesData);
   return (
     <>
       <DndContext onDragEnd={updateFormation}>
@@ -106,7 +103,7 @@ const Formation = () => {
       </DndContext>
       <Box width={"100%"} sx={{ backgroundColor: red[50] }}>
         <Typography>買い目</Typography>
-        {bettingList?.map((el) => (
+        {getBettingList(formation)?.map((el) => (
           <BettingCombination
             first={el[0]}
             second={el[1]}

@@ -6,20 +6,19 @@ import {
   FormationState,
 } from "../types/FavoriteStatus";
 import { useState } from "react";
-import getCombination from "../utils/getCombination";
+import { useSetAtom } from "jotai";
+import errorAtom from "../globalState/error";
 
 interface FormationHooks {
   updateFormation({ active, over }: DragEndEvent): void;
-  updateBettingList(formation: FormationState[]): void;
   formation: FormationState[];
-  bettingList: number[][];
 }
 
 const useFormationHooks = (raceData: RaceData[]): FormationHooks => {
   const [formation, setFormation] = useState<FormationState[]>(
     raceData.map((data) => getHorseState(data, FavoriteLevel.None))
   );
-  const [combination, setCombination] = useState<number[][]>([]);
+  const setError = useSetAtom(errorAtom);
 
   function updateFormation({ active, over }: DragEndEvent) {
     const { status: currentStatus, order } = extractOrderAndStatus(
@@ -28,14 +27,15 @@ const useFormationHooks = (raceData: RaceData[]): FormationHooks => {
     const data = raceData.find((el) => el.order == order);
     const target = over?.id;
     if (data == null || target == null) {
-      console.log("エラーやで");
+      setError(["枠内にセットしてください"]);
+      return;
     }
     const horceData = data!;
     const targetId = target!.toString();
     const newData = getHorseState(horceData, targetId);
     if (currentStatus == FavoriteLevel.None) {
       const newFormation = [...formation, newData];
-      setFormation([
+      setFormation(() => [
         ...newFormation.filter(
           (element, index, self) =>
             self.findIndex((e) => e.id == element.id) === index
@@ -43,7 +43,7 @@ const useFormationHooks = (raceData: RaceData[]): FormationHooks => {
       ]);
       return;
     }
-    setFormation([
+    setFormation(() => [
       ...formation
         .map((el) => (el.id == active.id ? newData : el))
         .filter(
@@ -53,27 +53,9 @@ const useFormationHooks = (raceData: RaceData[]): FormationHooks => {
     ]);
   }
 
-  function updateBettingList(formation: FormationState[]) {
-    const favorites = formation
-      .filter((el) => el.status == FavoriteLevel.Favorite)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    const secondFavorites = formation
-      .filter((el) => el.status == FavoriteLevel.SecondFavorite)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    const longShots = formation
-      .filter((el) => el.status == FavoriteLevel.LongShot)
-      .map((el) => el.order)
-      .sort((a, b) => a - b);
-    setCombination(getCombination(favorites, secondFavorites, longShots));
-  }
-
   return {
     updateFormation,
-    updateBettingList,
     formation: formation,
-    bettingList: combination,
   };
 };
 
