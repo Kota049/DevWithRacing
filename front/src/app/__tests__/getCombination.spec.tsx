@@ -29,4 +29,10 @@ describe("getCombination", () => {
     expect(res).toContainEqual([1, 2, 3]);
     expect(res).not.toContainEqual([1, 2, 2]);
   });
+  it("case has duplicated in f & f", () => {
+    const arg = [[1, 1], [2], [3]];
+    const res = getCombination({ f: arg[0], s: arg[1], l: arg[2] });
+    expect(res).toContainEqual([1, 2, 3]);
+    expect(res.length).toStrictEqual(1);
+  });
 });
