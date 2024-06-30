@@ -5,6 +5,9 @@ const getCombination3 = (
 ): number[][] => {
   f = removeDuplicated(f);
   s = removeDuplicated(s);
+  if (l.length == 0) {
+    return getCombination2(f, s, []);
+  }
   l = removeDuplicated(l);
 
   let res: number[][] = [];
