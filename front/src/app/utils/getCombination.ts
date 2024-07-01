@@ -13,9 +13,14 @@ const getCombination = (
   let res: number[][] = [];
   for (const i1 of firstChoices) {
     const currentRes = [i1];
-    res = [...res, ...getCombination2(secondChoices, thirdChoices, currentRes)];
+    res = [
+      ...res,
+      ...getCombination2(secondChoices, thirdChoices, currentRes).map((el) =>
+        el.sort((a, b) => a - b)
+      ),
+    ];
   }
-  return res;
+  return [...new Set(res)];
 };
 
 const getCombination2 = (
@@ -35,10 +40,10 @@ const getCombination2 = (
       if (i2 === i3) {
         continue;
       }
-      res.push([...currentRes, i2, i3]);
+      res.push([...currentRes, i2, i3].sort((a, b) => a - b));
     }
   }
-  return res;
+  return [...new Set(res)];
 };
 
 const removeDuplicated = (array: number[]) => {
