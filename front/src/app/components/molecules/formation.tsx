@@ -2,13 +2,15 @@
 import { DndContext } from "@dnd-kit/core";
 import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
-import { Box, Typography } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { blueGrey, grey, red } from "@mui/material/colors";
 import BettingCombination from "../atomic/BettingCombination";
 import { FavoriteLevel } from "../../types/FavoriteStatus";
 import { RaceData } from "../../types/RaceData";
 import useFormationHooks from "@/app/hooks/useFormation";
 import getBettingList from "@/app/utils/getBettingList";
+import useBettingTypeHooks from "@/app/hooks/useBettingTypeTab";
+import { BettingTypeList, parseJapanese } from "@/app/types/BettingType";
 
 const Formation = () => {
   // todo: fetch data logic
@@ -34,11 +36,18 @@ const Formation = () => {
   ];
 
   const { updateFormation, formation } = useFormationHooks(horcesData);
+  const { bettingType, formationFrameCount, changeBettingType } =
+    useBettingTypeHooks();
   return (
     <>
       <DndContext onDragEnd={updateFormation}>
+        <Tabs value={bettingType} onChange={changeBettingType} centered>
+          {BettingTypeList.map((el) => (
+            <Tab label={parseJapanese(el)} key={el} value={el} />
+          ))}
+        </Tabs>
         <Box sx={{ display: "flex", width: "100%", flexGrow: 1 }}>
-          <DroppableFrame id={FavoriteLevel.None}>
+          <DroppableFrame id={FavoriteLevel.None} isValid={true}>
             {formation
               .filter((el) => el.status == FavoriteLevel.None)
               .map((el) => {
@@ -49,11 +58,12 @@ const Formation = () => {
                     jockey={el.jockey}
                     id={el.id}
                     key={el.id}
+                    isValid={true}
                   />
                 );
               })}
           </DroppableFrame>
-          <DroppableFrame id={FavoriteLevel.Favorite}>
+          <DroppableFrame id={FavoriteLevel.Favorite} isValid={true}>
             {formation
               .filter((el) => el.status == FavoriteLevel.Favorite)
               .map((el) => {
@@ -64,11 +74,16 @@ const Formation = () => {
                     jockey={el.jockey}
                     id={el.id}
                     key={el.id}
+                    isValid={true}
                   />
                 );
               })}
           </DroppableFrame>
-          <DroppableFrame id={FavoriteLevel.SecondFavorite}>
+          <Box zIndex={100} sx={{ color: grey[800] }}></Box>
+          <DroppableFrame
+            id={FavoriteLevel.SecondFavorite}
+            isValid={formationFrameCount >= 2}
+          >
             {formation
               .filter((el) => el.status == FavoriteLevel.SecondFavorite)
               .map((el) => {
@@ -79,11 +94,15 @@ const Formation = () => {
                     jockey={el.jockey}
                     id={el.id}
                     key={el.id}
+                    isValid={formationFrameCount >= 2}
                   />
                 );
               })}
           </DroppableFrame>
-          <DroppableFrame id={FavoriteLevel.LongShot}>
+          <DroppableFrame
+            id={FavoriteLevel.LongShot}
+            isValid={formationFrameCount == 3}
+          >
             {formation
               .filter((el) => el.status == FavoriteLevel.LongShot)
               .map((el) => {
@@ -94,6 +113,7 @@ const Formation = () => {
                     jockey={el.jockey}
                     id={el.id}
                     key={el.id}
+                    isValid={formationFrameCount == 3}
                   />
                 );
               })}

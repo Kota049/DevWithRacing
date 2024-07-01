@@ -1,65 +1,31 @@
 import { useState } from "react";
+import { BettingType, Betting } from "../types/BettingType";
 
-export const Betting = {
-  Win: "Win",
-  Place: "Place",
-  Exacta: "Exacta",
-  Quinella: "Quinella",
-  Trifecta: "Trifecta",
-  Trio: "Trio",
-  QuinellaPlace: "QuinellaPlace",
-};
-export const BettingTypeList = [
-  Betting.Win,
-  Betting.Place,
-  Betting.QuinellaPlace,
-  Betting.Quinella,
-  Betting.Exacta,
-  Betting.Trio,
-  Betting.Trifecta,
-];
-export function parseJapanese(bt: BettingType): string {
-  switch (bt) {
-    case Betting.Win:
-      return "単勝";
-    case Betting.Place:
-      return "複勝";
-    case Betting.QuinellaPlace:
-      return "ワイド";
-    case Betting.Quinella:
-      return "馬連";
-    case Betting.Exacta:
-      return "馬単";
-    case Betting.Trio:
-      return "3連複";
-    default:
-      return "3連単";
-  }
-}
-export type BettingType = (typeof Betting)[keyof typeof Betting];
-
-interface FormationHooks {
+interface BettingTypeHooks {
   bettingType: BettingType;
   formationFrameCount: number;
-  changeBettingType(newBettingType: BettingType): void;
+  changeBettingType(event: React.SyntheticEvent, value: BettingType): void;
 }
 
-const useFormationHooks = (): FormationHooks => {
+const useBettingTypeHooks = (): BettingTypeHooks => {
   const [bettingType, setBettingType] = useState<BettingType>(Betting.Win);
   const [formationFrameCount, setFormationFrameCount] = useState<number>(1);
 
-  function changeBettingType(nbt: BettingType): void {
+  function changeBettingType(
+    _event: React.SyntheticEvent,
+    value: BettingType
+  ): void {
     let newCount = 1;
-    switch (nbt) {
-      case Betting.Exacta || Betting.Quinella || Betting.QuinellaPlace:
-        newCount = 2;
-        break;
-      case Betting.Trifecta || Betting.Trio:
-        newCount = 3;
-        break;
+    if (
+      [Betting.Exacta, Betting.Quinella, Betting.QuinellaPlace].includes(value)
+    ) {
+      newCount = 2;
     }
-    setBettingType(nbt);
-    setFormationFrameCount(newCount);
+    if ([Betting.Trifecta, Betting.Trio].includes(value)) {
+      newCount = 3;
+    }
+    setBettingType((_prev) => value);
+    setFormationFrameCount((_prev) => newCount);
   }
 
   return {
@@ -68,3 +34,5 @@ const useFormationHooks = (): FormationHooks => {
     changeBettingType,
   };
 };
+
+export default useBettingTypeHooks;
