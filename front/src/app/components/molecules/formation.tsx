@@ -3,7 +3,7 @@ import { DndContext } from "@dnd-kit/core";
 import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { blueGrey, grey, red } from "@mui/material/colors";
+import { grey, red } from "@mui/material/colors";
 import BettingCombination from "../atomic/BettingCombination";
 import { FavoriteLevel } from "../../types/FavoriteStatus";
 import { RaceData } from "../../types/RaceData";
