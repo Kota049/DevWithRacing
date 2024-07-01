@@ -14,7 +14,7 @@ const BettingCombination = ({
   return (
     <Box display={"flex"} sx={{ backgroundColor: green[50] }} padding={"10px"}>
       <Avatar>{first}</Avatar>
-      <Avatar>{second}</Avatar>
+      {second ? <Avatar>{second}</Avatar> : null}
       {third ? <Avatar>{third}</Avatar> : null}
     </Box>
   );

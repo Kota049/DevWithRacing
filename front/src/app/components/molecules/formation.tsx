@@ -122,7 +122,7 @@ const Formation = () => {
       </DndContext>
       <Box width={"100%"} sx={{ backgroundColor: red[50] }}>
         <Typography>買い目</Typography>
-        {getBettingList(formation)?.map((el) => (
+        {getBettingList(formation, bettingType)?.map((el) => (
           <BettingCombination
             first={el[0]}
             second={el[1]}
