@@ -48,4 +48,14 @@ describe("test for getPermutation", () => {
     expect(res).toContainEqual([2, 4, 6]);
     expect(res.length).toBe(8);
   });
+  it("return permutation exclude same numbers pattern if args has first & second & third", () => {
+    const res = getPermutaion([1, 2, 3], [1, 2, 3], [1, 2, 3]);
+    expect(res).toContainEqual([1, 2, 3]);
+    expect(res).toContainEqual([1, 3, 2]);
+    expect(res).toContainEqual([2, 1, 3]);
+    expect(res).toContainEqual([2, 3, 1]);
+    expect(res).toContainEqual([3, 1, 2]);
+    expect(res).toContainEqual([3, 2, 1]);
+    expect(res.length).toBe(6);
+  });
 });
