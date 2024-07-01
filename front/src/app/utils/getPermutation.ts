@@ -18,7 +18,8 @@ const getPermutaion = (
         res.push([i1, i2]);
         continue;
       }
-      for (const i3 of thirdChoices) {
+      const thirdWithoutDuplicated = [...new Set(thirdChoices)];
+      for (const i3 of thirdWithoutDuplicated) {
         if (i1 === i3 || i2 === i3) {
           continue;
         }
