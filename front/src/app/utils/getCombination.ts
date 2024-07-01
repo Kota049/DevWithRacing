@@ -20,7 +20,13 @@ const getCombination = (
       ),
     ];
   }
-  return [...new Set(res)];
+  return [
+    ...res.filter(
+      (element, index, self) =>
+        self.findIndex((e) => JSON.stringify(e) === JSON.stringify(element)) ===
+        index
+    ),
+  ];
 };
 
 const getCombination2 = (
@@ -43,7 +49,13 @@ const getCombination2 = (
       res.push([...currentRes, i2, i3].sort((a, b) => a - b));
     }
   }
-  return [...new Set(res)];
+  return [
+    ...res.filter(
+      (element, index, self) =>
+        self.findIndex((e) => JSON.stringify(e) === JSON.stringify(element)) ===
+        index
+    ),
+  ];
 };
 
 const removeDuplicated = (array: number[]) => {
