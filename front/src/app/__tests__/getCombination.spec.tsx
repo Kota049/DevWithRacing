@@ -52,7 +52,7 @@ describe("getCombination", () => {
     const res = getCombination(arg[0], arg[1]);
     expect(res).toContainEqual([1, 2]);
   });
-  it("case", () => {
+  it("case f has more element", () => {
     const arg = [[1, 3], [2], [1]];
     const res = getCombination(arg[0], arg[1], arg[2]);
     expect(res).toContainEqual([3, 2, 1]);
