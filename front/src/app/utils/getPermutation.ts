@@ -19,6 +19,9 @@ const getPermutaion = (
         continue;
       }
       for (const i3 of thirdChoices) {
+        if (i1 === i3 || i2 === i3) {
+          continue;
+        }
         res.push([i1, i2, i3]);
       }
     }
