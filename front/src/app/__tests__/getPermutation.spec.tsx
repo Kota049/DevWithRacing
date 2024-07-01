@@ -15,4 +15,12 @@ describe("test for getPermutation", () => {
     expect(res).toContainEqual([2]);
     expect(res.length).toBe(1);
   });
+  it("return permutation  if args has first & second", () => {
+    const res = getPermutaion([1, 2], [3, 4]);
+    expect(res).toContainEqual([1, 3]);
+    expect(res).toContainEqual([1, 4]);
+    expect(res).toContainEqual([2, 3]);
+    expect(res).toContainEqual([2, 4]);
+    expect(res.length).toBe(4);
+  });
 });
