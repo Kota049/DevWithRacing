@@ -1,10 +1,10 @@
 const getCombination = (
   firstChoices: number[],
-  secondChoices: number[],
+  secondChoices?: number[],
   thirdChoices?: number[]
 ): number[][] => {
   firstChoices = removeDuplicated(firstChoices);
-  secondChoices = removeDuplicated(secondChoices);
+  secondChoices = removeDuplicated(secondChoices!);
   if (typeof thirdChoices == "undefined") {
     return getCombination2(firstChoices, secondChoices, []);
   }

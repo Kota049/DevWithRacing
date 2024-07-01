@@ -58,4 +58,10 @@ describe("getCombination", () => {
     expect(res).toContainEqual([1, 2, 3]);
     expect(res.length).toStrictEqual(1);
   });
+  it("only has f", () => {
+    const res = getCombination([1, 2, 2]);
+    expect(res).toContainEqual([1]);
+    expect(res).toContainEqual([2]);
+    expect(res.length).toStrictEqual(2);
+  });
 });
