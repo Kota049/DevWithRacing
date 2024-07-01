@@ -1,33 +1,35 @@
-const getPermutaion = (
+import { removeDuplicated } from "./getCombination";
+
+const getPermutation = (
   firstChoices: number[],
   secondChoices?: number[],
-  thirdChoices?: number[]
+  thirdChoices?: number[],
+  currentRes?: number[][]
 ): number[][] => {
-  const firstWithoutDuplicated = [...new Set(firstChoices)];
-  if (typeof secondChoices == "undefined") {
-    return [...firstWithoutDuplicated.map((el) => [el])];
-  }
-  const secondWithoutDuplicated = [...new Set(secondChoices)];
+  const firstChoicesWithoutDuplicated = removeDuplicated(firstChoices);
   let res: number[][] = [];
-  for (const i1 of firstWithoutDuplicated) {
-    for (const i2 of secondWithoutDuplicated) {
-      if (i1 === i2) {
-        continue;
-      }
-      if (typeof thirdChoices == "undefined") {
-        res.push([i1, i2]);
-        continue;
-      }
-      const thirdWithoutDuplicated = [...new Set(thirdChoices)];
-      for (const i3 of thirdWithoutDuplicated) {
-        if (i1 === i3 || i2 === i3) {
-          continue;
+  for (const i1 of firstChoicesWithoutDuplicated) {
+    if (typeof currentRes != "undefined") {
+      for (const cp of currentRes) {
+        if (!cp.includes(i1)) {
+          res.push([...cp, i1]);
         }
-        res.push([i1, i2, i3]);
       }
+      continue;
     }
+    res.push([i1]);
   }
-  return res;
+
+  if (typeof secondChoices == "undefined") {
+    return res;
+  }
+
+  return getPermutation(
+    (firstChoices = secondChoices),
+    (secondChoices = thirdChoices),
+    (thirdChoices = undefined),
+    (currentRes = res)
+  );
 };
 
-export default getPermutaion;
+export default getPermutation;

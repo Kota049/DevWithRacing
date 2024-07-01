@@ -58,7 +58,7 @@ const getCombination2 = (
   ];
 };
 
-const removeDuplicated = (array: number[]) => {
+export const removeDuplicated = (array: number[]) => {
   return [...new Set(array)];
 };
 
