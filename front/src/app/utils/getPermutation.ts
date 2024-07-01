@@ -14,7 +14,13 @@ const getPermutaion = (
       if (i1 === i2) {
         continue;
       }
-      res.push([i1, i2]);
+      if (typeof thirdChoices == "undefined") {
+        res.push([i1, i2]);
+        continue;
+      }
+      for (const i3 of thirdChoices) {
+        res.push([i1, i2, i3]);
+      }
     }
   }
   return res;
