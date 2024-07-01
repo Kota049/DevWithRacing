@@ -4,6 +4,9 @@ const getCombination = (
   thirdChoices?: number[]
 ): number[][] => {
   firstChoices = removeDuplicated(firstChoices);
+  if (typeof secondChoices == "undefined") {
+    return firstChoices.map((el) => [el]);
+  }
   secondChoices = removeDuplicated(secondChoices!);
   if (typeof thirdChoices == "undefined") {
     return getCombination2(firstChoices, secondChoices, []);
