@@ -58,4 +58,9 @@ describe("test for getPermutation", () => {
     expect(res).toContainEqual([3, 2, 1]);
     expect(res.length).toBe(6);
   });
+  it("return permutation without duplicated  if args has first & second & third", () => {
+    const res = getPermutaion([1, 1], [2, 2], [3, 3]);
+    expect(res).toContainEqual([1, 2, 3]);
+    expect(res.length).toBe(1);
+  });
 });
