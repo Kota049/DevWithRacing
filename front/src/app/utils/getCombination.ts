@@ -12,8 +12,6 @@ const getCombination = (
 
   let res: number[][] = [];
   for (const i1 of firstChoices) {
-    // secondChoices = exclude(secondChoices, i1);
-    // thirdChoices = exclude(thirdChoices, i1);
     const currentRes = [i1];
     res = [...res, ...getCombination2(secondChoices, thirdChoices, currentRes)];
   }
@@ -30,7 +28,6 @@ const getCombination2 = (
     if (currentRes.includes(i2)) {
       continue;
     }
-    // l = exclude(l, i2);
     for (const i3 of l) {
       if (currentRes.includes(i3)) {
         continue;
@@ -42,10 +39,6 @@ const getCombination2 = (
     }
   }
   return res;
-};
-
-const exclude = (array: number[], el: number): number[] => {
-  return array.filter((i) => i != el);
 };
 
 const removeDuplicated = (array: number[]) => {
