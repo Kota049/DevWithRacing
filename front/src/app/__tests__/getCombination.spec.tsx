@@ -52,4 +52,10 @@ describe("getCombination", () => {
     const res = getCombination(arg[0], arg[1]);
     expect(res).toContainEqual([1, 2]);
   });
+  it("case", () => {
+    const arg = [[1, 3], [2], [1]];
+    const res = getCombination(arg[0], arg[1], arg[2]);
+    expect(res).toContainEqual([3, 2, 1]);
+    expect(res.length).toStrictEqual(1);
+  });
 });

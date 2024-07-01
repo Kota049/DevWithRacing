@@ -2,7 +2,6 @@
 import { DndContext } from "@dnd-kit/core";
 import HorseCard from "../atomic/HorseCard";
 import DroppableFrame from "../atomic/DroppableFrame";
-import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import BettingCombination from "../atomic/BettingCombination";
