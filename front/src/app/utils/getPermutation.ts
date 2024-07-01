@@ -3,7 +3,8 @@ const getPermutaion = (
   secondChoices?: number[],
   thirdChoices?: number[]
 ): number[][] => {
-  return [...firstChoices.map((el) => [el])];
+  const firstWithoutDuplicated = [...new Set(firstChoices)];
+  return [...firstWithoutDuplicated.map((el) => [el])];
 };
 
 export default getPermutaion;
