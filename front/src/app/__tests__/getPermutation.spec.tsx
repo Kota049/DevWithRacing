@@ -10,4 +10,9 @@ describe("test for getPermutation", () => {
     expect(res).toContainEqual([1]);
     expect(res).toContainEqual([2]);
   });
+  it("return first choices without duplicated if args only first", () => {
+    const res = getPermutaion([2, 2]);
+    expect(res).toContainEqual([2]);
+    expect(res.length).toBe(1);
+  });
 });
