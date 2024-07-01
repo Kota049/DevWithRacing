@@ -28,7 +28,7 @@ describe("test for getPermutation", () => {
     expect(res).toContainEqual([1, 2]);
     expect(res).toContainEqual([2, 1]);
     expect(res).not.toContainEqual([1, 1]);
-    expect(res).toContainEqual([2, 2]);
+    expect(res).not.toContainEqual([2, 2]);
     expect(res.length).toBe(2);
   });
 });
