@@ -2,6 +2,7 @@ import RACES from "../const/Races";
 import toJraPage from "../to/toJraPage";
 import { RaceOdds } from "../types/RaceOdds";
 import fetchQuinellaOdds from "./odds/fetchQuinellaOdds";
+import fetchQuinellaPlaceOdds from "./odds/fetchQuinellaPlaceOdds";
 import { fetchWinAndPlaceOdds } from "./odds/fetchWinAndPlaceOdds";
 
 async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
@@ -22,6 +23,7 @@ async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
       await page.waitForLoadState();
 
       await fetchQuinellaOdds(page);
+      await fetchQuinellaPlaceOdds(page);
 
       //   const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
 
