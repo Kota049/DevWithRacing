@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import makeKey from "../../helper/makeKey";
 
 export async function fetchWinAndPlaceOdds(page: Page) {
   const table = await page.getByRole("table").all();
@@ -31,8 +32,8 @@ export async function fetchWinAndPlaceOdds(page: Page) {
     if (isNaN(winOdds) || isNaN(minPlaceOdds) || isNaN(maxPlaceOdds)) {
       continue;
     }
-    winOddsList[orderStr] = winOdds;
-    placeOddsList[orderStr] = [minPlaceOdds, maxPlaceOdds];
+    winOddsList[makeKey(orderStr)] = winOdds;
+    placeOddsList[makeKey(orderStr)] = [minPlaceOdds, maxPlaceOdds];
   }
   return { winOddsList, placeOddsList };
 }

@@ -23,21 +23,21 @@ async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
 
       await fetchQuinellaOdds(page);
 
-      const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
+      //   const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
 
-      const currentRaceOdds: RaceOdds = {
-        win: winOddsList,
-        place: placeOddsList,
-        quinella_place: {},
-        quinella: {},
-        exacta: {},
-        trifecta: {},
-        trio: {},
-      };
-      console.log(JSON.stringify(currentRaceOdds, null, "\t"));
-      res.push(currentRaceOdds);
+      //   const currentRaceOdds: RaceOdds = {
+      //     win: winOddsList,
+      //     place: placeOddsList,
+      //     quinella_place: {},
+      //     quinella: {},
+      //     exacta: {},
+      //     trifecta: {},
+      //     trio: {},
+      //   };
+      //   console.log(JSON.stringify(currentRaceOdds, null, "\t"));
+      //   res.push(currentRaceOdds);
     } catch (error) {
-      await page.screenshot({ path: "error.png" });
+      await page.screenshot({ path: "screenshot/error.png" });
       return Promise.reject(`error in fetchRaceOdds | ${error}`);
     } finally {
       await page.close();

@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import makeKey from "../../helper/makeKey";
 
 async function fetchQuinellaOdds(
   page: Page
@@ -35,7 +36,7 @@ async function fetchQuinellaOdds(
         if (isNaN(oddsFloat)) {
           continue;
         }
-        const key = `${criteriaOrder}_${order}`;
+        const key = makeKey(criteriaOrder, order);
         oddsList[key] = oddsFloat;
       }
     }
