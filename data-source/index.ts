@@ -4,6 +4,7 @@ import fetchCurrentLinkCount from "./src/fetch/fetchCurrentLink";
 import fetchRaceOdds from "./src/fetch/fetchStadiumDateOdds";
 
 (async () => {
+  console.log("start");
   try {
     const linkCount = await fetchCurrentLinkCount();
     for (let i = 0; i < linkCount; i++) {

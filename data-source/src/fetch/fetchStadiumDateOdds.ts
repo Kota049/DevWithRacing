@@ -4,6 +4,7 @@ import { RaceOdds } from "../types/RaceOdds";
 import fetchExactaOdds from "./odds/fetchExactaOdds";
 import fetchQuinellaOdds from "./odds/fetchQuinellaOdds";
 import fetchQuinellaPlaceOdds from "./odds/fetchQuinellaPlaceOdds";
+import fetchTrioOdds from "./odds/fetchTrio";
 import { fetchWinAndPlaceOdds } from "./odds/fetchWinAndPlaceOdds";
 
 async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
@@ -26,6 +27,7 @@ async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
       await fetchQuinellaOdds(page);
       await fetchQuinellaPlaceOdds(page);
       await fetchExactaOdds(page);
+      await fetchTrioOdds(page);
 
       //   const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
 
