@@ -1,17 +1,16 @@
 // entory point
 
-import toJraPage from "./src/to/toJraPage";
+import fetchCurrentLinkCount from "./src/fetch/fetchCurrentLink";
+import fetchRaceOdds from "./src/fetch/fetchStadiumDateOdds";
 
 (async () => {
-  const { page, browser } = await toJraPage();
   try {
-    await page.screenshot({ path: "hogeho.png" });
-    console.log("完了");
+    const linkCount = await fetchCurrentLinkCount();
+    for (let i = 0; i < linkCount; i++) {
+      const res = await fetchRaceOdds(i);
+      console.log(res);
+    }
   } catch (error) {
     console.log(error);
-  } finally {
-    await page.close();
-    await browser.close();
-    console.log("close完了");
   }
 })();

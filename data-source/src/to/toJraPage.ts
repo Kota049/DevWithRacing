@@ -6,6 +6,7 @@ async function toJraPage(): Promise<{ browser: Browser; page: Page }> {
   await page.goto("https://www.jra.go.jp/keiba/");
   const oddsPageLink = page.getByRole("link", { name: "オッズ", exact: true });
   await oddsPageLink.click();
+  await page.waitForLoadState();
   return { browser, page };
 }
 
