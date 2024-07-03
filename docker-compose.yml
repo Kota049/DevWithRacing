@@ -10,3 +10,13 @@ services:
       - "3000:3000"
     tty: true
     command: ["bash"]
+  data_source:
+    build:
+      dockerfile: docker/Dockerfile.data_source
+    tty: true
+    ports:
+      - "9323:9323"
+    volumes:
+      - ./data-source:/app
+    environment:
+      - DISPLAY=:10
