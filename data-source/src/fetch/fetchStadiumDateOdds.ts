@@ -4,7 +4,8 @@ import { RaceOdds } from "../types/RaceOdds";
 import fetchExactaOdds from "./odds/fetchExactaOdds";
 import fetchQuinellaOdds from "./odds/fetchQuinellaOdds";
 import fetchQuinellaPlaceOdds from "./odds/fetchQuinellaPlaceOdds";
-import fetchTrioOdds from "./odds/fetchTrio";
+import fetchTrifectaOdds from "./odds/fetchTrifectaOdds";
+import fetchTrioOdds from "./odds/fetchTrioOdds";
 import { fetchWinAndPlaceOdds } from "./odds/fetchWinAndPlaceOdds";
 
 async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
@@ -24,24 +25,24 @@ async function fetchRaceOdds(linkIndex: number): Promise<RaceOdds[]> {
       await winPlaceLink.click();
       await page.waitForLoadState();
 
-      await fetchQuinellaOdds(page);
-      await fetchQuinellaPlaceOdds(page);
-      await fetchExactaOdds(page);
-      await fetchTrioOdds(page);
+      const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
 
-      //   const { winOddsList, placeOddsList } = await fetchWinAndPlaceOdds(page);
-
-      //   const currentRaceOdds: RaceOdds = {
-      //     win: winOddsList,
-      //     place: placeOddsList,
-      //     quinella_place: {},
-      //     quinella: {},
-      //     exacta: {},
-      //     trifecta: {},
-      //     trio: {},
-      //   };
-      //   console.log(JSON.stringify(currentRaceOdds, null, "\t"));
-      //   res.push(currentRaceOdds);
+      const quinellaOdds = await fetchQuinellaOdds(page);
+      const quinellaPlaceOdds = await fetchQuinellaPlaceOdds(page);
+      const exactaOdds = await fetchExactaOdds(page);
+      const trioOdds = await fetchTrioOdds(page);
+      const trifectaOdds = await fetchTrifectaOdds(page);
+      const currentRaceOdds: RaceOdds = {
+        win: winOddsList,
+        place: placeOddsList,
+        quinella_place: quinellaPlaceOdds,
+        quinella: quinellaOdds,
+        exacta: exactaOdds,
+        trifecta: trifectaOdds,
+        trio: trioOdds,
+      };
+      console.log(JSON.stringify(currentRaceOdds, null, "\t"));
+      res.push(currentRaceOdds);
     } catch (error) {
       await page.screenshot({ path: "screenshot/error.png" });
       return Promise.reject(`error in fetchRaceOdds | ${error}`);
