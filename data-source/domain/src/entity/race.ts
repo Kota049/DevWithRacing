@@ -8,7 +8,7 @@ export class Race {
     public horses: Horse[],
   ) {}
 
-  getBettingDeadline(now: Date): boolean {
+  canBattingDuration(now: Date): boolean {
     const deadline = 2 * 60 * 1000;
     const diff = this.startAt.getTime() - now.getTime();
     return diff > deadline;

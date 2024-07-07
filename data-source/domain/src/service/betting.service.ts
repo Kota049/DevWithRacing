@@ -5,12 +5,14 @@ import { Id } from 'src/entity/user';
 import { BettingRepositoryInterface } from 'src/repository/betting.repository';
 import { BudgetHistoryRepositoryInterface } from 'src/repository/budget.history.repository';
 import { BudgetRepositoryInterface } from 'src/repository/budget.repository';
+import { RaceRepositoryInterface } from 'src/repository/race.repository';
 
 export class BettingService {
   constructor(
     private readonly br: BettingRepositoryInterface,
     private readonly bur: BudgetRepositoryInterface,
     private readonly bhr: BudgetHistoryRepositoryInterface,
+    private readonly rr: RaceRepositoryInterface,
   ) {}
 
   async betting(
@@ -19,6 +21,15 @@ export class BettingService {
     btds: BettingDetail[],
   ): Promise<Betting> {
     const now = new Date();
+    const canBettingDuration = await this.rr
+      .findOne(raceId)
+      .then((r) => r.canBattingDuration(now))
+      .catch(() => false);
+
+    if (!canBettingDuration) {
+      return Promise.reject('締め切り時間を過ぎています');
+    }
+
     const currentBudget = (await this.bur.findOne(userId)).budget;
     const totalBettingAmount = btds
       .map((btd) => btd.amount)
