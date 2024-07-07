@@ -40,7 +40,7 @@ export class BettingService {
 
     // update budget;
     const budget = new Budget(currentBudget - totalBettingAmount, userId);
-    await this.bur.create(budget);
+    await this.bur.update(budget);
 
     // create betting;
     const betting = new Betting(userId, raceId, totalBettingAmount, btds);
