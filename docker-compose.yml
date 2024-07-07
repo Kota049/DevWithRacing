@@ -20,3 +20,16 @@ services:
       - ./data-source:/app
     environment:
       - DISPLAY=:10
+  db:
+    image: postgres:14.5-bullseye
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=keiba
+      - TZ="Asia/Tokyo"
+    volumes:
+      - data_store:/var/lib/postgresql/data
+volumes:
+  data_store:
