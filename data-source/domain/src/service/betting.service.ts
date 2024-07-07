@@ -57,4 +57,8 @@ export class BettingService {
 
     return Promise.resolve(createdBettng);
   }
+  async findUserAll(userId: Id): Promise<Betting[]> {
+    const bettingList = await this.br.findUserALl(userId);
+    return Promise.resolve(bettingList);
+  }
 }
