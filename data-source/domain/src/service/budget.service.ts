@@ -3,7 +3,7 @@ import { Id } from 'src/entity/user';
 import { BudgetRepositoryInterface } from 'src/repository/budget.repository';
 
 export class BudgetService {
-  constructor(private br: BudgetRepositoryInterface) {}
+  constructor(private readonly br: BudgetRepositoryInterface) {}
   async getCurrentBudget(userId: Id): Promise<Budget> {
     const currentBudget = await this.br.findOne(userId);
     return Promise.resolve(currentBudget);
