@@ -4,6 +4,12 @@ export class User {
   constructor(userId: Id, leverage: number) {
     (this.userId = userId), (this.leverage = leverage);
   }
+  updateLeverage(leverage: number) {
+    if (leverage <= 0) {
+      throw new Error('レバレッジは0より大きくしてください');
+    }
+    this.leverage = leverage;
+  }
 }
 
 export class Id {
