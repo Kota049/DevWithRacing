@@ -64,6 +64,8 @@ model BettingDetail{
   horse2 Int?
   horse3 Int?
   result String
+  amount Int
+  bettingType String
 }
 
 model Race{
