@@ -1,8 +1,12 @@
-import { Betting, BettingDetail } from 'src/entity/betting';
+import { Betting } from 'src/entity/betting';
 import { Budget } from 'src/entity/budget';
 import { BudgetHistory, BugetUpdater } from 'src/entity/budget.history';
 import { Id } from 'src/entity/user';
-import { BettingRepositoryInterface } from 'src/repository/betting.repository';
+import {
+  BettingRepositoryInterface,
+  CreateBetting,
+  CreateBettingDetail,
+} from 'src/repository/betting.repository';
 import { BudgetHistoryRepositoryInterface } from 'src/repository/budget.history.repository';
 import { BudgetRepositoryInterface } from 'src/repository/budget.repository';
 import { RaceRepositoryInterface } from 'src/repository/race.repository';
@@ -18,7 +22,7 @@ export class BettingService {
   async betting(
     userId: Id,
     raceId: Id,
-    btds: BettingDetail[],
+    btds: CreateBettingDetail[],
   ): Promise<Betting> {
     const now = new Date();
     const canBettingDuration = await this.rr
@@ -43,8 +47,13 @@ export class BettingService {
     await this.bur.update(budget);
 
     // create betting;
-    const betting = new Betting(userId, raceId, totalBettingAmount, btds);
-    const createdBettng = await this.br.create(betting);
+    const createBetting = new CreateBetting(
+      userId,
+      raceId,
+      totalBettingAmount,
+      btds,
+    );
+    const createdBettng = await this.br.create(createBetting);
 
     // create budgetHistory;
     const bettingHistory = new BudgetHistory(
