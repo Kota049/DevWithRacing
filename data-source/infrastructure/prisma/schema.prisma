@@ -99,6 +99,6 @@ model GithubUser{
 model Repository{
   id     Int  @id @default(autoincrement())
   githubUser GithubUser @relation(fields: [githubUserId],references: [id])
-  githubUserId Int @unique
+  githubUserId Int 
   name String
 }

@@ -27,5 +27,4 @@ export abstract class BettingRepositoryInterface extends RepositoryInterface<
   CreateBetting
 > {
   abstract findUserALl(userId: Id): Promise<Betting[]>;
-  abstract new(userId: Id);
 }

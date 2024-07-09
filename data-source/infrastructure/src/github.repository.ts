@@ -1,4 +1,4 @@
-import { GithubUser } from 'src/entity/github.user';
+import { GithubUser } from '@domain/entity/github.user';
 
 // FIXME:githubUserに依存してる
 export abstract class GithubRepositoryInterface {
