@@ -3,9 +3,7 @@ import { GithubUserRepositoryInterface } from '@domain/repository/github.user.re
 import { GithubUser } from '@domain/entity/github.user';
 import { PrismaService } from './prisma.service';
 
-export abstract class GithubUserRepository
-  implements GithubUserRepositoryInterface
-{
+export class GithubUserRepository implements GithubUserRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
   async create(gu: GithubUser): Promise<GithubUser> {
     const githubUser = await this.prisma.githubUser.create({

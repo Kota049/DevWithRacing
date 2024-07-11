@@ -1,6 +1,6 @@
 import { Betting } from 'src/entity/betting';
 import { Budget } from 'src/entity/budget';
-import { BudgetHistory, BugetUpdater } from 'src/entity/budget.history';
+import { BudgetHistory, BudgetUpdater } from 'src/entity/budget.history';
 import { Id } from 'src/entity/user';
 import {
   BettingRepositoryInterface,
@@ -60,7 +60,7 @@ export class BettingService {
       userId,
       totalBettingAmount * -1,
       now,
-      BugetUpdater.BUY,
+      BudgetUpdater.BUY,
     );
     await this.bhr.create(bettingHistory);
 

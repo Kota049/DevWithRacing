@@ -5,13 +5,26 @@ export class BudgetHistory {
     public userId: Id,
     public diff: number,
     public createdAt: Date,
-    public createdBy: BugetUpdater,
+    public createdBy: BudgetUpdater,
   ) {}
 }
 
-export enum BugetUpdater {
+export enum BudgetUpdater {
   COMMIT,
   WIN,
   RESTITUTION,
   BUY,
+}
+
+export function toBudgetUpdater(s: string): BudgetUpdater {
+  if (s === 'COMMIT') {
+    return BudgetUpdater.COMMIT;
+  }
+  if (s === 'WIN') {
+    return BudgetUpdater.WIN;
+  }
+  if (s === 'COMMIT') {
+    return BudgetUpdater.RESTITUTION;
+  }
+  return BudgetUpdater.BUY;
 }

@@ -5,7 +5,7 @@ import {
 } from '@domain/repository/user.repository';
 import { PrismaService } from './prisma.service';
 
-export abstract class UserRepository implements UserRepositoryInterface {
+export class UserRepository implements UserRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
   async create(t: CreateUser): Promise<User> {
     const user = await this.prisma.user.create({

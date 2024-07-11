@@ -1,4 +1,4 @@
-import { BudgetHistory, BugetUpdater } from 'src/entity/budget.history';
+import { BudgetHistory, BudgetUpdater } from 'src/entity/budget.history';
 import { CommitHistory } from 'src/entity/commit.history';
 import { Id } from 'src/entity/user';
 import { BudgetHistoryRepositoryInterface } from 'src/repository/budget.history.repository';
@@ -53,7 +53,7 @@ export class CommitHistoryService {
       userId,
       diff,
       now,
-      BugetUpdater.COMMIT,
+      BudgetUpdater.COMMIT,
     );
     await this.bhr.create(newBudgetHistory);
     return;
