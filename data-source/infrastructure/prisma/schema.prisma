@@ -94,6 +94,7 @@ model GithubUser{
   refreshToken String
   githubUserId String
   repositories Repository[]
+  githubUserName String
 }
 
 model Repository{

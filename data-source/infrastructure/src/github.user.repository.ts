@@ -14,6 +14,7 @@ export abstract class GithubUserRepository
         token: gu.refreshToken,
         refreshToken: gu.refreshToken,
         githubUserId: gu.githubUserId,
+        githubUserName: gu.githubName,
         repositories: {
           create: gu.repositories.map((r) => {
             return { name: r };
@@ -30,6 +31,7 @@ export abstract class GithubUserRepository
       githubUser.refreshToken,
       githubUser.githubUserId,
       githubUser.repositories.map((r) => r.name),
+      githubUser.githubUserName,
     );
     return Promise.resolve(createdGithubUser);
   }
@@ -70,6 +72,7 @@ export abstract class GithubUserRepository
       githubUser.refreshToken,
       githubUser.githubUserId,
       repositories.map((r) => r.name),
+      githubUser.githubUserName,
     );
     return Promise.resolve(updated);
   }
@@ -88,6 +91,7 @@ export abstract class GithubUserRepository
       gh.refreshToken,
       gh.githubUserId,
       gh.repositories.map((r) => r.name),
+      gh.githubUserName,
     );
     return Promise.resolve(githubUser);
   }
