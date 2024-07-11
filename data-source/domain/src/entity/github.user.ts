@@ -7,5 +7,6 @@ export class GithubUser {
     public refreshToken: string,
     public githubUserId: string,
     public repositories: string[],
+    public githubName: string,
   ) {}
 }
