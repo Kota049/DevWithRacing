@@ -4,7 +4,7 @@ import { Id } from 'src/entity/user';
 import { BudgetHistoryRepositoryInterface } from 'src/repository/budget.history.repository';
 import { BudgetRepositoryInterface } from 'src/repository/budget.repository';
 import { CommitHistoryRepositoryInterface } from 'src/repository/commit.history.repository';
-import { GithubRepositoryInterface } from 'src/repository/github.repository';
+import { GithubClientInterface } from 'src/repository/github.client';
 import { GithubUserRepositoryInterface } from 'src/repository/github.user.repository';
 import { UserRepositoryInterface } from 'src/repository/user.repository';
 
@@ -12,7 +12,7 @@ export class CommitHistoryService {
   constructor(
     private readonly chr: CommitHistoryRepositoryInterface,
     private readonly ghur: GithubUserRepositoryInterface,
-    private readonly ghr: GithubRepositoryInterface,
+    private readonly ghr: GithubClientInterface,
     private readonly ur: UserRepositoryInterface,
     private readonly bhr: BudgetHistoryRepositoryInterface,
     private readonly br: BudgetRepositoryInterface,
